@@ -44,16 +44,15 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task),MenuProvider {
         addTaskView = view
     }
     private fun saveTask(view: View){
-        val taskTitle = binding.addTaskTitle.text.toString().trim()
-        val taskDescription = binding.addTaskDescription.text.toString().trim()
+        val taskTitle = binding.addTaskTitle.text?.toString()?.trim()
+        val taskDescription = binding.addTaskDescription.text?.toString()?.trim()
 
-        if(taskTitle.isEmpty()){
-            val task = Task(0,taskTitle,taskDescription)
+        if (!taskTitle.isNullOrEmpty()) {
+            val task = Task(0, taskTitle, taskDescription ?: "")
             taskViewModel.addTask(task)
-
-            Toast.makeText(addTaskView.context,"Note Saved",Toast.LENGTH_SHORT).show()
+            Toast.makeText(addTaskView.context,"Task Saved",Toast.LENGTH_SHORT).show()
             view.findNavController().popBackStack(R.id.homeFragment,false)
-        } else{
+        } else {
             Toast.makeText(addTaskView.context,"Please fill out the title",Toast.LENGTH_SHORT).show()
         }
 

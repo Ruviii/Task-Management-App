@@ -1,8 +1,12 @@
 package com.ruvini.taskmanagementapp.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -49,16 +53,49 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
         binding.editTaskDescription.setText(currentTask.taskDescription)
 
         binding.editTaskFab.setOnClickListener {
-            val taskTitle = binding.editTaskTitle.text.toString().trim()
-            val taskDescription = binding.editTaskDescription.text.toString().trim()
+            val taskTitle = binding.editTaskTitle.text?.toString()?.trim()
+            val taskDescription = binding.editTaskDescription.text?.toString()?.trim()
 
-            if (taskTitle.isNotEmpty()) {
-                val task = Task(currentTask.id, taskTitle, taskDescription)
+            if (!taskTitle.isNullOrEmpty()) {
+                val task = Task(currentTask.id, taskTitle, taskDescription ?: "")
                 taskViewModel.updateTask(task)
                 view.findNavController().popBackStack(R.id.homeFragment, false)
             } else {
                 Toast.makeText(context,"Please fill out the title", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun deleteTask(){
+        AlertDialog.Builder(activity).apply {
+            setTitle("Delete Task")
+            setMessage("Are you sure you want to delete this task?")
+            setPositiveButton("Delete"){_,_ ->
+                taskViewModel.deleteTask(currentTask)
+                Toast.makeText(context,"Task deleted", Toast.LENGTH_SHORT).show()
+                view?.findNavController()?.popBackStack(R.id.homeFragment, false)
+            }
+            setNegativeButton("Cancel",null)
+        }.create().show()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+        menuInflater.inflate(R.menu.menu_edit_task, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when(menuItem.itemId){
+            R.id.deleteMenu -> {
+                deleteTask()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        editTaskBinding = null
     }
 }
