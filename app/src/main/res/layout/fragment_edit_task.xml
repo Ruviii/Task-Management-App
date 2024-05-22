@@ -37,7 +37,7 @@
             android:fontFamily="@font/digitalt"/>
 
         <EditText
-            android:id="@+id/editNoteDesc"
+            android:id="@+id/editTaskDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Enter the description"
@@ -50,7 +50,7 @@
             android:layout_marginTop="12dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/editNoteFab"
+            android:id="@+id/editTaskFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

@@ -37,7 +37,7 @@
             android:fontFamily="@font/digitalt"/>
 
         <EditText
-            android:id="@+id/addNoteDesc"
+            android:id="@+id/addTaskDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Enter the description"
