@@ -69,9 +69,17 @@ class HomeFragment : Fragment(R.layout.fragment_home),SearchView.OnQueryTextList
             setHasFixedSize(true)
             adapter = taskAdapter
         }
+
+        taskAdapter.onItemClickListener = { task ->
+            val action = HomeFragmentDirections.actionHomeFragmentToEditTaskFragment(task)
+            view?.findNavController()?.navigate(action)
+
+        }
+
         activity?.let {
             taskViewModel.getAllTasks().observe(viewLifecycleOwner) { task ->
                 taskAdapter.differ.submitList(task)
+                UpdateUI(task)
             }
         }
     }

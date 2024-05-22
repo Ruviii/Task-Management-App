@@ -43,22 +43,21 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task),MenuProvider {
         taskViewModel = (activity as MainActivity).taskViewModel
         addTaskView = view
     }
-    private fun saveTask(view: View){
-        val taskTitle = binding.addTaskTitle.text?.toString()?.trim()
-        val taskDescription = binding.addTaskDescription.text?.toString()?.trim()
 
-        if (!taskTitle.isNullOrEmpty()) {
-            val task = Task(0, taskTitle, taskDescription ?: "")
+    private fun saveTask(view: View) {
+        val taskTitle = binding.addTaskTitle.text.toString().trim()
+        val taskDesc = binding.addTaskTitle.text.toString().trim()
+
+        if (taskTitle.isNotEmpty()) {
+            val task = Task(0, taskTitle, taskDesc)
             taskViewModel.addTask(task)
-            Toast.makeText(addTaskView.context,"Task Saved",Toast.LENGTH_SHORT).show()
-            view.findNavController().popBackStack(R.id.homeFragment,false)
+
+            Toast.makeText(addTaskView.context, "Task Saved", Toast.LENGTH_SHORT).show()
+            view.findNavController().popBackStack(R.id.homeFragment, false)
         } else {
-            Toast.makeText(addTaskView.context,"Please fill out the title",Toast.LENGTH_SHORT).show()
+            Toast.makeText(addTaskView.context, "Please fill out the title", Toast.LENGTH_SHORT).show()
         }
-
-
     }
-
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menu.clear()
         menuInflater.inflate(R.menu.menu_add_task,menu)

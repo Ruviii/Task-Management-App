@@ -53,15 +53,15 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
         binding.editTaskDescription.setText(currentTask.taskDescription)
 
         binding.editTaskFab.setOnClickListener {
-            val taskTitle = binding.editTaskTitle.text?.toString()?.trim()
-            val taskDescription = binding.editTaskDescription.text?.toString()?.trim()
+            val taskTitle = binding.editTaskTitle.text.toString().trim()
+            val noteDesc = binding.editTaskDescription.text.toString().trim()
 
-            if (!taskTitle.isNullOrEmpty()) {
-                val task = Task(currentTask.id, taskTitle, taskDescription ?: "")
+            if (taskTitle.isNotEmpty()) {
+                val task = Task(currentTask.id, taskTitle, noteDesc)
                 taskViewModel.updateTask(task)
                 view.findNavController().popBackStack(R.id.homeFragment, false)
             } else {
-                Toast.makeText(context,"Please fill out the title", Toast.LENGTH_SHORT).show()
+                Toast.makeText(view.context, "Task title cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
     }
